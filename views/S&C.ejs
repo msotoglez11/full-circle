@@ -1,0 +1,58 @@
+<%- include('header') %>
+    <h1>Strength & Conditioning Plans</h1>
+
+    <form action="/plans/strength/generate" method="post">
+
+        <label>Goal: </label>
+        <select name="goal">
+            <option>Build Strength</option>
+            <option>Improve Speed</option>
+            <option>Improve lateral movements</option>
+            <option>Improve Endurance</option>
+            <option>Injury Prevention</option>
+        </select>
+
+        <label>Experience Level: </label>
+        <select name="experience">
+            <option>Beginner</option>
+            <option>Intermediate</option>
+            <option>Advanced</option>
+        </select>
+
+        <label>Days Per Week: </label>
+        <select name="daysPerWeek">
+            <option>2</option>
+            <option>3</option>
+            <option>5</option>
+            <option>7</option>
+        </select>
+
+        <label>Equipment Available: </label>
+        <select name="equipment">
+            <option>No Equipment</option>
+            <option>Gym</option>
+            <option>Resistance Bands Only</option>
+        </select>
+
+        <label>Additional Notes: </label>
+        <textarea name="notes" rows="3"></textarea>
+
+        <input type="submit" value="Generate Plan">
+    </form>
+
+    <% if(typeof plan !=='undefined' ){ %>
+        <div class="plan-output">
+            <h2>Your Strength and Conditioning Plan</h2>
+            <pre><%= plan %></pre>
+            <form action="/plans/save" method="post">
+                <input type="hidden" name="type" value="Strength">
+                <input type="hidden" name="plan" value="<%= plan %>">
+                <input type="submit" value="Save Plan">
+            </form>
+        </div>
+        <% } %>
+
+
+
+
+            <%- include('footer') %>

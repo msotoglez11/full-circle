@@ -1,0 +1,87 @@
+<%- include('header') %>
+
+    <h1>Soccer Practice Plan</h1>
+
+    <form action="/plans/practice/generate" method="post">
+
+        <label>Position: </label>
+        <select name="position">
+            <option>Goalkeeper</option>
+            <option>Defender</option>
+            <option>Midfielder</option>
+            <option>Forward</option>
+        </select>
+
+        <label>Skill Level: </label>
+        <select name="level">
+            <option>Begginer</option>
+            <option>Intermediate</option>
+            <option>Advanced</option>
+        </select>
+
+        <label>Session Length: </label>
+        <select name="duration">
+            <option>30 minutes</option>
+            <option>45 minutes</option>
+            <option>60 minutes</option>
+            <option>90 minutes</option>
+        </select>
+
+        <label>Number of Days</label>
+        <select name="days">
+            <option>1</option>
+            <option>3</option>
+            <option>5</option>
+            <option>7</option>
+        </select>
+
+        <label> Number of players: </label>
+        <select name="players">
+            <option> 1</option>
+            <option> 2-5</option>
+            <option> 6-10</option>
+            <option> 11+(Full Team Pracitce)</option>
+        </select>
+
+        <label> Preparing for: </label>
+        <select name="preparing">
+            <option>Regular practice</option>
+            <option>Match-day preparation</option>
+            <option>Tournament</option>
+            <option>Upcoming Trial</option>
+            <option>Off-season graft</option>
+        </select>
+
+        <label>Focus Area: </label>
+        <select name="focus">
+            <option>Passing/Scanning</option>
+            <option>Tight Space ball manipulation</option>
+            <option>Shooting</option>
+            <option>Dribbling</option>
+            <option>1 v 1s</option>
+            <option>Defense</option>
+            <option>Overall</option>
+        </select>
+
+        <label> Additional notes: </label>
+        <textarea name="notes" rows="3"></textarea>
+
+        <input type="submit" value="Generate Plan">
+
+    </form>
+
+    <% if (typeof plan !=='undefined' ) { %>
+        <div class="plan-output">
+        <h2> Your Practice Plan</h2>
+        <pre><%= plan %></pre>
+        <form action="/plans/save" method="post">
+            <input type="hidden" name="type" value="Practice">
+            <input type="hidden" name="plan" value="<%= plan %>">
+            <input type="submit" value="Save Plan">
+        </form>
+        </div>
+        <% } %>
+
+            
+
+            <%- include('footer') %>

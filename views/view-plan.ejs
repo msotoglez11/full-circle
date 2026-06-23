@@ -1,0 +1,12 @@
+<%- include('header') %>
+
+<div class="plan-output">
+    <div class="card-header">
+        <h1><%= savedPlan.type %> Plan</h1>
+        <small><%= savedPlan.createdAt.toDateString() %></small>
+    </div>
+    <pre><%= savedPlan.plan %></pre>
+    <a href="/plans/dashboard" class="btn">Back to Dashboard</a>
+</div>
+
+<%- include('footer') %>

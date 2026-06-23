@@ -1,0 +1,56 @@
+<%- include('header') %>
+    <h1>Soccer Meal Plan</h1>
+
+    <form action="/plans/meals/generate" method="post">
+
+        <label>Goal</label>
+        <select name="goal">
+            <option>Build Muscle</option>
+            <option>Lose Weight</option>
+            <option>Maintain Weight</option>
+            <option>Maximize Performance</option>
+        </select>
+
+        <label>Meals Per Day</label>
+        <select name="mealsPerDay">
+            <option>3</option>
+            <option>4</option>
+            <option>5</option>
+        </select>
+
+        <label>Number of Days</label>
+        <select name="days">
+            <option>3</option>
+            <option>5</option>
+            <option>7</option>
+        </select>
+
+        <label>Dietary restrictions(Type N/A if none)</label>
+        <textArea name="diet" rows="3"></textArea>
+
+
+
+
+
+
+        <label>Additional Notes</label>
+        <textArea name="notes" rows="3"></textArea>
+
+        <input type="submit" value="Generate Plan">
+    </form>
+
+    <% if (typeof plan !=='undefined' ){ %>
+        <div class="plan-output">
+            <h2>Your Meal Plan</h2>
+            <pre><%=plan%></pre>
+            <form action="/plans/save" method="post">
+                <input type="hidden" name="type" value="Meals">
+                <input type="hidden" name="plan" value="<%= plan %>">
+                <input type="submit" value="Save Plan">
+            </form>
+        </div>
+        <% } %>
+
+
+
+            <%- include('footer') %>

@@ -1,0 +1,27 @@
+<%- include('header') %>
+
+<h1>My Dashboard</h1>
+
+<% if (savedPlans.length === 0) { %>
+    <p>No saved plans yet. Generate a plan and save it!</p>
+<% } else { %>
+    <div class="dashboard-grid">
+        <% savedPlans.forEach(function(savedPlan) { %>
+            <div class="dashboard-card">
+                <div class="card-header">
+                    <h3><%= savedPlan.type %> Plan</h3>
+                    <small><%= savedPlan.createdAt.toDateString() %></small>
+                </div>
+                <p class="card-preview"><%= savedPlan.plan.substring(0, 150) %>...</p>
+                <div class="card-actions">
+                    <a href="/plans/view/<%= savedPlan._id %>" class="btn-view">View Plan</a>
+                    <form action="/plans/delete/<%= savedPlan._id %>" method="post">
+                        <input type="submit" value="Delete" class="btn-delete">
+                    </form>
+                </div>
+            </div>
+        <% }); %>
+    </div>
+<% } %>
+
+<%- include('footer') %>
