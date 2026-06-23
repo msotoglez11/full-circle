@@ -1,22 +1,24 @@
 <%- include('header') %>
 
-        <h1>Create Account</h1>
+    <h1>Create Account</h1>
 
-        <form action="/users/signup/submit" method="post">
+    
 
-            <label for="name">Username: </label>
-            <input type="text" name="name" required>
+            <form action="/users/signup/submit" method="post">
 
-            <label for="email">Email: </label>
-            <input type="email" name="email" required>
+                <label for="name">Username: </label>
+                <input type="text" name="name" required>
 
-            <label for="password">Password: </label>
-            <input type="password" name="password" required>
+                <label for="email">Email: </label>
+                <input type="email" name="email" required>
 
-            <input type="submit" value="Sign up">
-        </form>
+                <label for="password">Password: </label>
+                <input type="password" name="password" required>
 
-        <p>Already have an account? <a href="/users/login">Log in here.</a></p>
+                <input type="submit" value="Sign up">
+            </form>
+
+            <p>Already have an account? <a href="/users/login">Log in here.</a></p>
 
 
-        <%- include('footer') %>
+            <%- include('footer') %>

@@ -13,7 +13,7 @@ const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
 // const model=genAI.getGenerativeModel({model: 'gemini-2.0-flash'});//gemini mdel
 
 const { getCollection } = require('../models/db');
-
+//can only access practice, meals, strength if session is active with isLoggedIn
 router.get('/practice', isLoggedIn, function (req, res) {
     res.render('practice');
 });
@@ -28,7 +28,7 @@ router.get('/strength', isLoggedIn, function (req, res) {
 
 
 router.post('/practice/generate', isLoggedIn, async function (req, res) {
-    try {
+    try {// get the form inputs from the body as it is post actiion, in order to then use for the prompt
         const { position, level, duration, days, players, preparing, focus, notes } = req.body;
 
         const prompt = `Create a soccer practice plan with the following deatils:
@@ -60,7 +60,7 @@ MAIN DRILLS
 
 COOL DOWN
 [cool down details]`
-
+//Had to structure the response because Gemini kept giving different formats and sometimes even markdown text
         // const result=await model.generateContent(prompt);
         // const plan=result.response.text();
         const result = await ai.models.generateContent({
@@ -74,7 +74,7 @@ COOL DOWN
     } catch (e) {
         console.error(e);
         let errorMsg = 'Error generating plan, please try again later.';
-        if (e.status === 503) {
+        if (e.status === 503) {//Gemini usages sometimes spike which is why this error checking is needed
             errorMsg = 'Gemini is experiencing high demand. Please try again in a moment'
         }
         res.render('practice', { plan: errorMsg, formData: req.body });
@@ -202,8 +202,8 @@ WEEKLY TIPS
 router.post('/save', isLoggedIn, async function(req, res) {
     try {
         const { type, plan } = req.body;
-        const conn = getCollection('plans');
-        await conn.insertOne({
+        const conn = getCollection('plans');//connection to the plans collection in MongoDB
+        await conn.insertOne({//Insert one object into the collection with id, type, plan and date
             userId: req.session.user._id,
             type: type,
             plan: plan,
@@ -221,7 +221,8 @@ router.get('/dashboard', isLoggedIn, async function(req, res) {
         const conn = getCollection('plans');
         const { ObjectId } = require('mongodb');
         const savedPlans = await conn.find({ 
-            userId: req.session.user._id.toString() 
+            userId: req.session.user._id.toString() //have to find the user with specific id to send saved plans to array
+            //sorted by date
         }).sort({ createdAt: -1 }).toArray();
         res.render('dashboard', { savedPlans });
     } catch(e) {
@@ -234,7 +235,8 @@ router.post('/delete/:id', isLoggedIn, async function(req, res) {
     try {
         const { ObjectId } = require('mongodb');
         const conn = getCollection('plans');
-        await conn.deleteOne({ _id: new ObjectId(req.params.id) });
+        await conn.deleteOne({ _id: new ObjectId(req.params.id) });//delete the plan in the collection with the objectid
+
         res.redirect('/plans/dashboard');
     } catch(e) {
         console.error(e);
@@ -249,6 +251,7 @@ router.get('/view/:id', isLoggedIn, async function(req, res) {
         const { ObjectId } = require('mongodb');
         const conn = getCollection('plans');
         const savedPlan = await conn.findOne({ _id: new ObjectId(req.params.id) });
+        //findone, so we only need to find the specificed saved plan to view it in view-plan
         res.render('view-plan', { savedPlan });
     } catch(e) {
         console.error(e);

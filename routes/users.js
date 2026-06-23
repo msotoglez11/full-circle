@@ -17,7 +17,7 @@ router.post('/signup/submit', async function(req,res){
 
     let existingUser=await conn.findOne({email: req.body.email});
     if (existingUser){
-      return res.redirect('/users/signup?error=Email+already+in+use');
+      return res.redirect('/users/signup?error=Email+already+in+use');//add error message to URL
     }
 
     let password=req.body.password;//getting password from body, post

@@ -1,11 +1,11 @@
 const {MongoClient}= require('mongodb');
 require('dotenv').config();
 
-const dbURL=process.env.ATLAS_URI;
+const dbURL=process.env.ATLAS_URI;//get the ATLAS_URI from safe .env
 
 let db;
 
-async function connectToDB(){
+async function connectToDB(){//connection to the MongoDB
     try{
         console.log(dbURL);
         const client=new MongoClient(dbURL);
@@ -25,7 +25,7 @@ function getCollection(collectionName){
     if (!db){
         throw new Error('Database not connected. Call connectionToDB first');
     }
-    return db.collection(collectionName);
+    return db.collection(collectionName);//needed to specify between users and plans collections
 }
 module.exports={
     connectToDB, getCollection
